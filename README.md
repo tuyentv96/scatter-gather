@@ -1,4 +1,5 @@
 # scatter-gather
+[![Build](https://github.com/tuyentv96/scatter-gather/actions/workflows/.test.yml/badge.svg)](https://github.com/tuyentv96/scatter-gather/actions/workflows/.test.yml) [![codecov](https://codecov.io/gh/tuyentv96/scatter-gather/branch/master/graph/badge.svg?token=487YpufAb9)](https://codecov.io/gh/tuyentv96/scatter-gather) [![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A simple implementation of scatter gather pattern in Go.
 
