@@ -1,4 +1,4 @@
-#scatter-gather
+# scatter-gather
 
 A simple implementation of scatter gather pattern in Go.
 
@@ -27,8 +27,9 @@ func main() {
 		"https://jsonplaceholder.typicode.com/todos/8",
 		"https://jsonplaceholder.typicode.com/todos/9",
 	}
-
-	result, err := scattergather.ScattergatherWithInputParams(urls, 4, func(params []string) ([]string, error) {
+    
+    batchSize := 4
+	result, err := scattergather.ScattergatherWithInputParams(urls, batchSize, func(params []string) ([]string, error) {
 		rs := make([]string, 0, len(params))
 		for _, url := range params {
 			fmt.Printf("Fetching url: %s\n", url)
@@ -54,3 +55,7 @@ func main() {
 	fmt.Printf("result size: %d\n", len(result))
 }
 ```
+
+## License
+ * MIT license ([LICENSE-MIT](LICENSE-MIT) or
+   http://opensource.org/licenses/MIT)
