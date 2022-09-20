@@ -28,7 +28,7 @@ func main() {
 		"https://jsonplaceholder.typicode.com/todos/9",
 	}
     
-    batchSize := 4
+    batchSize:=4
 	result, err := scattergather.ScattergatherWithInputParams(urls, batchSize, func(params []string) ([]string, error) {
 		rs := make([]string, 0, len(params))
 		for _, url := range params {
