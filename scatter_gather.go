@@ -12,9 +12,9 @@ var (
 	ErrInvalidBatchSize = errors.New("batch size must be great than zero")
 )
 
-// Scattergather executes multiple futures
+// ScattergatherWithFuncs executes multiple futures funtions
 // Return error if anfuture has failed.
-func Scattergather[T any](futures [](func() ([]T, error))) ([]T, error) {
+func ScattergatherWithFuncs[T any](futures [](func() ([]T, error))) ([]T, error) {
 	g := &errgroup.Group{}
 	mu := &sync.Mutex{}
 	var result []T
@@ -65,5 +65,5 @@ func ScattergatherWithInputParams[K, V any](params []K, batchSize int, fn func([
 		})
 	}
 
-	return Scattergather(futures)
+	return ScattergatherWithFuncs(futures)
 }

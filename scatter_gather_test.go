@@ -1,6 +1,7 @@
 package scattergather
 
 import (
+	"errors"
 	"sort"
 	"testing"
 
@@ -99,4 +100,13 @@ func TestScatterGatherWithInputParams(t *testing.T) {
 			assert.Equal(t, tc.want, got)
 		})
 	}
+}
+
+func TestScatterGatherWithInput_ReturnError(t *testing.T) {
+	input := []string{"bird", "cat", "dog", "fish"}
+	_, err := ScattergatherWithInputParams(input, 2, func(k []string) ([]string, error) {
+		return nil, errors.New("failed to handle")
+	})
+
+	assert.EqualError(t, err, "failed to handle")
 }
