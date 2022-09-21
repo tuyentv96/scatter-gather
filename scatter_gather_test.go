@@ -2,10 +2,9 @@ package scattergather
 
 import (
 	"errors"
+	"reflect"
 	"sort"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestScatterGatherWithInputParams(t *testing.T) {
@@ -82,7 +81,7 @@ func TestScatterGatherWithInputParams(t *testing.T) {
 			input:     []string{"bird", "cat", "dog", "fish"},
 			batchSize: -1,
 			fn:        nil,
-			want:      []string{},
+			want:      nil,
 			err:       ErrInvalidBatchSize,
 		},
 	}
@@ -90,23 +89,29 @@ func TestScatterGatherWithInputParams(t *testing.T) {
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
 			got, err := ScattergatherWithInputParams(tc.input, tc.batchSize, tc.fn)
-			if tc.err != nil {
-				assert.EqualError(t, err, tc.err.Error())
-				return
+			if tc.err != err {
+				t.Fatalf("tc: %s, got: %+v, want: %+v", tc.name, err, tc.err)
 			}
 
-			sort.Strings(tc.want)
-			sort.Strings(got)
-			assert.Equal(t, tc.want, got)
+				sort.Strings(tc.want)
+				sort.Strings(got)
+				if !reflect.DeepEqual(got, tc.want) {
+					t.Errorf("tc: %s, got: %v, want %v, err: %v %v %v", tc.name, got, tc.want, tc.err, err, tc.err == err)
+				}
 		})
 	}
 }
 
 func TestScatterGatherWithInput_ReturnError(t *testing.T) {
+	want := errors.New("random failure")
+
 	input := []string{"bird", "cat", "dog", "fish"}
 	_, err := ScattergatherWithInputParams(input, 2, func(k []string) ([]string, error) {
-		return nil, errors.New("failed to handle")
+		return nil, want
 	})
 
-	assert.EqualError(t, err, "failed to handle")
+	if err != want {
+		t.Fatalf("got: %v, want: %v", err, want)
+	}
+	// assert.EqualError(t, err, "failed to handle")
 }
